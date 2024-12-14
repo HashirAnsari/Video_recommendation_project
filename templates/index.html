@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Recommendations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/1600x900/?nature,mountains') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0 0;
+            color: #ccc;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .container h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            appearance: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        select option {
+            color: #000;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: #e63946;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #d62839;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #e63946;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .recommendation-list {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation-item {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        .recommendation-item:hover {
+            background-color: #e6f7ff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Video Recommendations</h1>
+        <p>Find videos just for you</p>
+    </header>
+
+    <div class="container">
+        <h2>Get Your Recommendations</h2>
+        <form id="recommendation-form" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category_id">Category ID:</label>
+                <input type="number" id="category_id" name="category_id" placeholder="Enter category ID" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mood">Mood:</label>
+                <select id="mood" name="mood" required>
+                    <option value="" disabled selected>Select Mood</option>
+                    <option value="happy">Happy</option>
+                    <option value="energetic">energetic</option>
+                    <option value="neutral">Neutral</option>
+                    <option value="calm">Calm</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Get Recommendations</button>
+        </form>
+
+        <div id="recommendation-list" class="recommendation-list">
+            <!-- Recommendations will appear here -->
+        </div>
+    </div>
+
+
+
+
+
+    <footer>
+        <p>&copy; 2024 Video Recommendation App | Built by Hashir Ansari</p>
+    </footer>
+
+    
+
+    <script>
+        document.getElementById('recommendation-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const category_id = document.getElementById('category_id').value.trim();
+            const mood = document.getElementById('mood').value.trim();
+
+            const recommendationList = document.getElementById('recommendation-list');
+            recommendationList.innerHTML = ''; // Clear previous recommendations
+
+            try {
+                const response = await fetch('/recommendations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, category_id, mood })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recommendations');
+                }
+
+                 const data = await response.json();
+                 if (data.recommendations && data.recommendations.length > 0) {
+                     const recommendations = data.recommendations.slice(0, 5); // Limit to 5 recommendations
+                     recommendations.forEach(item => {
+                         const link = document.createElement('a');
+                           const title = item.post_title || 'Untitled Video';
+                           link.textContent = title;
+                           link.href = `/video/${item.post_id}`;
+                         link.textContent = item.post_title || 'Untitled Video';
+                         link.className = 'recommendation-item';
+                         recommendationList.appendChild(link);
+
+
+                     });
+                
+                } else {
+                    recommendationList.textContent = 'No recommendations available.';
+                }
+            } catch (error) {
+                recommendationList.textContent = 'Error fetching recommendations. Please try again later.';
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
