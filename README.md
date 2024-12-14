@@ -49,8 +49,8 @@ video-recommendation/
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/HashirAnsari/Video_recommendation_system.git
-   cd video-recommendation
+   git clone https://github.com/HashirAnsari/Video_recommendation_project.git
+   cd video-recommend
    ```
 
 2. Set up a virtual environment:
